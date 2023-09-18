@@ -11,24 +11,51 @@ def generate_sample_data(num_entries):
     }
     return pd.DataFrame(data)
 
+# Function to simulate user login (replace with actual authentication logic)
+def authenticate(username, password):
+    return username == 'raizel' and password == 'shopwwithraizel'
+
 # Generate 50 sample entries
 num_entries = 50
 shopping_apps_data = generate_sample_data(num_entries)
 
-st.title('Top Shopping Apps Comparison')
+# Main Streamlit app
+def main():
+    st.title('Login Page')
 
-# Display shopping app data
-st.write('Shopping App Data:')
-st.write(shopping_apps_data)
+    # Get user input for username and password
+    username = st.text_input('Username:')
+    password = st.text_input('Password:', type='password')
 
-# Allow user to select apps for comparison
-selected_apps = st.multiselect('Select Apps for Comparison', shopping_apps_data['App'].unique())
+    # Check if the login button is pressed
+    if st.button('Login'):
+        if authenticate(username, password):
+            st.success('Login successful!')
+            display_comparison(shopping_apps_data)
+        else:
+            st.error('Invalid credentials. Please try again.')
 
-# Filter the data based on selected apps
-selected_shopping_apps = shopping_apps_data[shopping_apps_data['App'].isin(selected_apps)]
+# Function to display the comparison
+def display_comparison(data):
+    st.title('Top Shopping Apps Comparison')
 
-# Display the selected shopping apps
-st.write('Selected Shopping Apps for Comparison:')
-st.write(selected_shopping_apps)
+    # Display shopping app data
+    st.write('Shopping App Data:')
+    st.write(data)
 
-# Add more features for comparison based on your data
+    # Allow user to select apps for comparison
+    selected_apps = st.multiselect('Select Apps for Comparison', data['App'].unique())
+
+    # Filter the data based on selected apps
+    selected_shopping_apps = data[data['App'].isin(selected_apps)]
+
+    # Display the selected shopping apps
+    st.write('Selected Shopping Apps for Comparison:')
+    st.write(selected_shopping_apps)
+
+    # Plot a bar chart for rating comparison
+    st.bar_chart(selected_shopping_apps[['App', 'Rating']].set_index('App'))
+
+# Run the app
+if __name__ == '__main__':
+    main()

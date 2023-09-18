@@ -41,7 +41,8 @@ def display_comparison(data):
     st.title('Top Shopping Apps Comparison')
 
     # Allow user to select apps for comparison
-    selected_apps = st.multiselect('Select Apps for Comparison', data['App'].unique())
+    selected_apps = st.multiselect('Select Apps for Comparison', data['App'].unique(), default=data['App'].tolist())
+
 
     # Filter the data based on selected apps
     selected_shopping_apps = data[data['App'].isin(selected_apps)]

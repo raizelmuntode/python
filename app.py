@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 # Generate sample data for top shopping apps (replace with real-time data)
 def generate_sample_data(num_entries):
     data = {
-        'App': [f'App {i+1}' for i in range(num_entries)],
+        'App': [f'Shopping App {i+1}' for i in range(num_entries)],
         'Rating': np.random.uniform(3.5, 5.0, num_entries).round(1),
         'Downloads (millions)': np.random.randint(100, 1000, num_entries)
     }
@@ -43,7 +43,6 @@ def display_comparison(data):
     # Allow user to select apps for comparison
     selected_apps = st.multiselect('Select Apps for Comparison', data['App'].unique(), default=data['App'].tolist())
 
-
     # Filter the data based on selected apps
     selected_shopping_apps = data[data['App'].isin(selected_apps)]
 
@@ -53,16 +52,24 @@ def display_comparison(data):
 
     # Plot a bar chart for rating comparison
     st.write('### Ratings Comparison')
-    fig, ax = plt.subplots()
-    ax.bar(selected_shopping_apps['App'], selected_shopping_apps['Rating'])
-    plt.xticks(rotation=45)
+    fig, ax = plt.subplots(figsize=(10, 6))
+    
+    # Adjust the bar width to add space between the bars
+    bar_width = 0.4
+    bar_positions = np.arange(len(selected_shopping_apps))
+    ax.bar(bar_positions, selected_shopping_apps['Rating'], width=bar_width, tick_label=selected_shopping_apps['App'])
+    
+    plt.xticks(rotation=45, ha='right')
+    plt.tight_layout()
+    
     st.pyplot(fig)
 
     # Plot a figure for download counts
     st.write('### Download Counts')
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(10, 6))
     ax.plot(selected_shopping_apps['App'], selected_shopping_apps['Downloads (millions)'], marker='o')
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=45, ha='right')
+    plt.tight_layout()
     st.pyplot(fig)
 
 # Run the app

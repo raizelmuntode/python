@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 # Generate sample data for top shopping apps (replace with real-time data)
 def generate_sample_data(num_entries):
     data = {
-        'App': [f'Shopping App {i+1}' for i in range(num_entries)],
+        'App': [f'App {i+1}' for i in range(num_entries)],
         'Rating': np.random.uniform(3.5, 5.0, num_entries).round(1),
         'Downloads (millions)': np.random.randint(100, 1000, num_entries)
     }

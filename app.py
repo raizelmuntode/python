@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 # Generate sample data for top shopping apps (replace with real-time data)
 def generate_sample_data(num_entries):
@@ -13,7 +14,7 @@ def generate_sample_data(num_entries):
 
 # Function to simulate user login (replace with actual authentication logic)
 def authenticate(username, password):
-    return username == 'raizel' and password == 'shopwwithraizel'
+    return username == 'user' and password == 'password'
 
 # Generate 50 sample entries
 num_entries = 50
@@ -39,10 +40,6 @@ def main():
 def display_comparison(data):
     st.title('Top Shopping Apps Comparison')
 
-    # Display shopping app data
-    st.write('Shopping App Data:')
-    st.write(data)
-
     # Allow user to select apps for comparison
     selected_apps = st.multiselect('Select Apps for Comparison', data['App'].unique())
 
@@ -54,7 +51,18 @@ def display_comparison(data):
     st.write(selected_shopping_apps)
 
     # Plot a bar chart for rating comparison
-    st.bar_chart(selected_shopping_apps[['App', 'Rating']].set_index('App'))
+    st.write('### Ratings Comparison')
+    fig, ax = plt.subplots()
+    ax.bar(selected_shopping_apps['App'], selected_shopping_apps['Rating'])
+    plt.xticks(rotation=45)
+    st.pyplot(fig)
+
+    # Plot a figure for download counts
+    st.write('### Download Counts')
+    fig, ax = plt.subplots()
+    ax.plot(selected_shopping_apps['App'], selected_shopping_apps['Downloads (millions)'], marker='o')
+    plt.xticks(rotation=45)
+    st.pyplot(fig)
 
 # Run the app
 if __name__ == '__main__':
